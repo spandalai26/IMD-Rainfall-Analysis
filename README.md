@@ -1,6 +1,6 @@
-# IMD Rainfall Analysis
+﻿# IMD Rainfall Analysis
 
-**Live page:** https://spandalai26.github.io/IMD-Rainfall-Analysis/
+**Live page:** https://spandalai26.github.io/IMD-Rainfall-Analysis/Kerala/
 
 ## Kerala Climate Record
 
