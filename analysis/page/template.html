@@ -1,0 +1,424 @@
+<title>Kerala Climate Record</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Sans+Condensed:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with charts allowed to widen to 960px; a gauge-sheet feel — hairline scales, condensed data labels, no cards except the method box. */
+:root {
+  --page: #f4f7f5;
+  --surface: #fcfcfb;
+  --ink: #12201d;
+  --ink-2: #44524e;
+  --muted: #7d8a86;
+  --rule: #dde4e0;
+  --axis: #b9c4bf;
+  --accent: #0d5f57;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --wet: #2a78d6;
+  --dry: #d03b3b;
+  --mid: #eceeec;
+  --band: rgba(13, 95, 87, 0.07);
+  --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --data: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #0e1413; --surface: #151c1a; --ink: #e9efec; --ink-2: #b6c2bd; --muted: #85928d;
+    --rule: #26302d; --axis: #3a4643; --accent: #5cc2b4; --s1: #3987e5; --s2: #d95926;
+    --wet: #3987e5; --dry: #e66767; --mid: #2a3230; --band: rgba(92, 194, 180, 0.08);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0e1413; --surface: #151c1a; --ink: #e9efec; --ink-2: #b6c2bd; --muted: #85928d;
+  --rule: #26302d; --axis: #3a4643; --accent: #5cc2b4; --s1: #3987e5; --s2: #d95926;
+  --wet: #3987e5; --dry: #e66767; --mid: #2a3230; --band: rgba(92, 194, 180, 0.08);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--page); color: var(--ink); font: 400 1.0625rem/1.65 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 960px; margin: 0 auto; padding-block: 2.5rem 4rem; }
+.prose { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--display); font-weight: 650; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.05; font-variation-settings: "opsz" 144; }
+h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); line-height: 1.15; margin-top: 3.5rem; }
+h3 { font-size: 1.2rem; margin-top: 2rem; }
+p { margin: 0.9rem 0 0; }
+a { color: var(--accent); }
+.kicker, .label, .meta, figcaption, .note, table, .tabs, select, .legend, .tip {
+  font-family: var(--data);
+}
+.kicker { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+.dek { font-size: 1.25rem; line-height: 1.5; color: var(--ink-2); margin-top: 1rem; max-width: 60ch; }
+.meta { color: var(--muted); font-size: 0.85rem; margin-top: 1rem; }
+.ml { font-style: italic; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--rule); border-block: 1px solid var(--rule); margin-top: 2rem; }
+.stat { background: var(--page); padding: 1rem 0.9rem; }
+.stat b { display: block; font: 600 clamp(1.5rem, 5vw, 2rem)/1.1 var(--display); color: var(--ink); white-space: nowrap; }
+.stat span { font-family: var(--data); font-size: 0.85rem; color: var(--ink-2); display: block; margin-top: 0.3rem; }
+figure { margin: 1.75rem 0 0; }
+figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 0.6rem; max-width: 68ch; }
+.fig-title { font-family: var(--data); font-weight: 600; font-size: 0.95rem; color: var(--ink); }
+.fig-sub { font-family: var(--data); font-size: 0.85rem; color: var(--ink-2); }
+.chart { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 12px; margin-top: 0.6rem; position: relative; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font-family: var(--data); fill: var(--muted); font-size: 11px; }
+.grid line { stroke: var(--rule); stroke-width: 1; }
+.axis line, .axis path { stroke: var(--axis); }
+.multi { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .multi { grid-template-columns: minmax(0, 1fr); } }
+.multi .chart { margin-top: 0; }
+.panel-h { font-family: var(--data); font-size: 0.9rem; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.panel-h em { font-style: normal; font-weight: 400; color: var(--ink-2); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 0.8rem; }
+.tabs { display: inline-flex; border: 1px solid var(--axis); border-radius: 6px; overflow: hidden; flex-wrap: wrap; }
+.tabs button { font: 500 0.85rem var(--data); background: transparent; color: var(--ink-2); border: 0; padding: 6px 12px; cursor: pointer; }
+.tabs button + button { border-left: 1px solid var(--axis); }
+.tabs button[aria-pressed="true"] { background: var(--accent); color: var(--page); }
+.tabs button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select { font-size: 0.9rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--axis); background: var(--surface); color: var(--ink); max-width: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--ink-2); margin-top: 0.5rem; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 6px; }
+.legend i.dash { border-top-style: dashed; }
+.legend i.sw { width: 12px; height: 12px; border: 0; border-radius: 2px; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--axis); border-radius: 6px; padding: 6px 9px; font-size: 0.8rem; color: var(--ink); box-shadow: 0 4px 14px rgba(0,0,0,0.12); white-space: nowrap; z-index: 2; }
+.tip b { font-weight: 600; }
+.tbl-wrap { overflow-x: auto; margin-top: 0.8rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; font-variant-numeric: tabular-nums; min-width: 640px; }
+th, td { padding: 7px 10px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+thead th { color: var(--ink-2); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+thead tr.grp th { border-bottom: 0; color: var(--ink); }
+td.flag { box-shadow: inset 3px 0 0 var(--s2); }
+.sig { font-weight: 600; color: var(--ink); }
+.ns { color: var(--muted); }
+.methodbox { border: 1px solid var(--rule); background: var(--surface); border-radius: 6px; padding: 1rem 1.2rem; margin-top: 1.5rem; }
+.methodbox h3 { margin-top: 0; font-size: 1.05rem; }
+.methodbox ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.methodbox li { margin-top: 0.35rem; }
+.note { font-size: 0.85rem; color: var(--ink-2); }
+.mapwrap { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 640px) { .mapwrap { grid-template-columns: minmax(0, 1fr); } }
+.cell:hover { stroke: var(--ink); stroke-width: 1.5; }
+code { font-family: var(--data); font-size: 0.9em; background: var(--mid); padding: 1px 5px; border-radius: 4px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0 0; }
+@media (prefers-reduced-motion: no-preference) { .tabs button { transition: background .15s; } }
+</style>
+
+<main>
+<!--NARRATIVE-->
+</main>
+
+<script>
+const DATA = /*DATA*/;
+const OUTLINE = /*OUTLINE*/;
+</script>
+<script>
+(() => {
+const SEASONS = [
+  { k: "winter", n: "Winter", ml: "", months: "Jan–Feb" },
+  { k: "premonsoon", n: "Pre-monsoon", ml: "Venal mazha", months: "Mar–May" },
+  { k: "monsoon", n: "South-west monsoon", ml: "Edavapathi", months: "Jun–Sep" },
+  { k: "postmonsoon", n: "North-east monsoon", ml: "Thulavarsham", months: "Oct–Dec" },
+];
+const RIDX = {
+  prcptot: { n: "Total rain on wet days", u: "mm" },
+  wet_days: { n: "Rainy days (≥1 mm)", u: "days" },
+  r20mm: { n: "Heavy-rain days (≥20 mm)", u: "days" },
+  rx1day: { n: "Wettest day", u: "mm" },
+  rx5day: { n: "Wettest 5 days", u: "mm" },
+  sdii: { n: "Rain per wet day", u: "mm/day" },
+  cwd: { n: "Longest wet spell", u: "days" },
+  cdd: { n: "Longest dry spell", u: "days" },
+};
+const TIDX = {
+  tmax_mean: { n: "Mean daily maximum", u: "°C" },
+  tmin_mean: { n: "Mean daily minimum", u: "°C" },
+  dtr: { n: "Day–night range", u: "°C" },
+  txx: { n: "Hottest day", u: "°C" },
+  tnx: { n: "Warmest night", u: "°C" },
+  tx90p: { n: "Hot days (above 1961–90 90th pct)", u: "% of days" },
+};
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const fmt = (v, d = 1) => (v == null || Number.isNaN(v)) ? "–" : v.toFixed(d);
+const sgn = (v, d = 1) => (v == null || Number.isNaN(v)) ? "–" : (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d);
+
+function series(rows, season, index, method) {
+  return rows.filter(r => r.season === season && r.index === index)
+    .sort((a, b) => a.year - b.year).map(r => ({ x: r.year, y: r[method] }));
+}
+function smooth(pts, w = 11) {
+  const h = Math.floor(w / 2);
+  return pts.map((p, i) => {
+    const win = pts.slice(Math.max(0, i - h), i + h + 1).map(q => q.y).filter(v => v != null && !Number.isNaN(v));
+    return { x: p.x, y: win.length >= Math.ceil(w * 0.7) ? win.reduce((a, b) => a + b, 0) / win.length : null };
+  });
+}
+function niceTicks(lo, hi, n = 4) {
+  const span = hi - lo || 1, step0 = span / n, mag = 10 ** Math.floor(Math.log10(step0));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => span / s <= n + 0.5);
+  const t = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) t.push(+v.toFixed(10));
+  return t;
+}
+function attachTip(box) {
+  const t = document.createElement("div"); t.className = "tip"; t.hidden = true; box.appendChild(t); return t;
+}
+function placeTip(tip, box, px, py, html) {
+  tip.innerHTML = html; tip.hidden = false;
+  const bw = box.clientWidth, tw = tip.offsetWidth;
+  let left = px + 14; if (left + tw > bw - 4) left = px - tw - 14; if (left < 4) left = 4;
+  tip.style.left = left + "px"; tip.style.top = Math.max(4, py - 10) + "px";
+}
+
+/* Line/bar chart: layers = [{pts, kind:'bar'|'line'|'dots', color, dash, width, opacity, name}] */
+function chart(box, opts) {
+  box.innerHTML = "";
+  const W = opts.W || 900, H = opts.H || 300, m = { t: 14, r: 14, b: 26, l: 44 };
+  const all = opts.layers.flatMap(l => l.pts).filter(p => p.y != null && !Number.isNaN(p.y));
+  const xs = all.map(p => p.x), ys = all.map(p => p.y);
+  const x0 = opts.x0 ?? Math.min(...xs), x1 = opts.x1 ?? Math.max(...xs);
+  let y0 = opts.zero ? Math.min(0, ...ys) : Math.min(...ys), y1 = Math.max(...ys);
+  const pad = (y1 - y0) * 0.08 || 1; if (!opts.zero) y0 -= pad; y1 += pad;
+  const yt = niceTicks(y0, y1, opts.yticks || 4); y0 = Math.min(y0, yt[0]); y1 = Math.max(y1, yt[yt.length - 1]);
+  const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const Y = v => H - m.b - (v - y0) / (y1 - y0) * (H - m.t - m.b);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.aria || "" }, box);
+  for (const b of opts.bands || []) {
+    el("rect", { x: X(b[0] - 0.5), y: m.t, width: X(b[1] + 0.5) - X(b[0] - 0.5), height: H - m.t - m.b, fill: "var(--band)" }, svg);
+    const tx = el("text", { x: X(b[0]) + 3, y: m.t + 11, "font-size": 10 }, svg); tx.textContent = b[2] || "";
+  }
+  const g = el("g", { class: "grid" }, svg);
+  yt.forEach(v => {
+    el("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, g);
+    const t = el("text", { x: m.l - 6, y: Y(v) + 4, "text-anchor": "end" }, svg); t.textContent = v.toLocaleString();
+  });
+  if (opts.refZero && y0 < 0 && y1 > 0) el("line", { x1: m.l, x2: W - m.r, y1: Y(0), y2: Y(0), stroke: "var(--axis)", "stroke-width": 1.5 }, svg);
+  const decade = x1 - x0 > 60 ? 25 : 10;
+  for (let v = Math.ceil(x0 / decade) * decade; v <= x1; v += decade) {
+    const t = el("text", { x: X(v), y: H - 8, "text-anchor": "middle" }, svg); t.textContent = v;
+  }
+  el("line", { x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b, stroke: "var(--axis)" }, svg);
+  const bw = Math.max(1, (W - m.l - m.r) / (x1 - x0 + 1) - 1);
+  for (const L of opts.layers) {
+    if (L.kind === "hidden") continue; // tooltip-only layer
+    if (L.kind === "bar") {
+      const base = Y(Math.max(0, y0));
+      L.pts.forEach(p => { if (p.y == null || Number.isNaN(p.y)) return;
+        const y = Y(p.y); el("rect", { x: X(p.x) - bw / 2, y: Math.min(y, base), width: bw, height: Math.abs(base - y), fill: L.color, opacity: L.opacity ?? 1 }, svg); });
+    } else if (L.kind === "dots") {
+      L.pts.forEach(p => { if (p.y == null || Number.isNaN(p.y)) return; el("circle", { cx: X(p.x), cy: Y(p.y), r: L.r || 1.6, fill: L.color, opacity: L.opacity ?? 1 }, svg); });
+    } else {
+      let d = "", pen = false;
+      L.pts.forEach(p => { if (p.y == null || Number.isNaN(p.y)) { pen = false; return; }
+        d += (pen ? "L" : "M") + X(p.x).toFixed(1) + " " + Y(p.y).toFixed(1); pen = true; });
+      el("path", { d, fill: "none", stroke: L.color, "stroke-width": L.width || 2, "stroke-dasharray": L.dash || "none", opacity: L.opacity ?? 1, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+    }
+  }
+  for (const a of opts.annotate || []) {
+    const p = a.pt; if (!p) continue;
+    el("circle", { cx: X(p.x), cy: Y(p.y), r: 3.5, fill: "var(--surface)", stroke: "var(--ink)", "stroke-width": 1.5 }, svg);
+    const t = el("text", { x: X(p.x) + (a.dx ?? -6), y: Y(p.y) + (a.dy ?? -8), "text-anchor": a.anchor || "end", fill: "var(--ink-2)", "font-size": 11 }, svg);
+    t.textContent = a.text;
+  }
+  // hover
+  const tip = attachTip(box);
+  const cross = el("line", { y1: m.t, y2: H - m.b, stroke: "var(--axis)", "stroke-width": 1, opacity: 0 }, svg);
+  const hit = el("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: "transparent" }, svg);
+  const tipLayers = opts.layers.filter(l => l.name);
+  const move = ev => {
+    const r = svg.getBoundingClientRect(), sx = (ev.clientX - r.left) / r.width * W;
+    const yr = Math.round(x0 + (sx - m.l) / (W - m.l - m.r) * (x1 - x0));
+    if (yr < x0 || yr > x1) return;
+    cross.setAttribute("x1", X(yr)); cross.setAttribute("x2", X(yr)); cross.setAttribute("opacity", 1);
+    const rows = tipLayers.map(l => { const p = l.pts.find(q => q.x === yr); return `<div><span style="color:${l.tipColor || l.color}">●</span> ${l.name}: <b>${p ? fmt(p.y, opts.dp ?? 0) : "–"}</b>${opts.unit ? " " + opts.unit : ""}</div>`; }).join("");
+    const br = box.getBoundingClientRect();
+    placeTip(tip, box, ev.clientX - br.left, ev.clientY - br.top, `<div><b>${yr}</b></div>${rows}`);
+  };
+  hit.addEventListener("pointermove", move);
+  hit.addEventListener("pointerleave", () => { tip.hidden = true; cross.setAttribute("opacity", 0); });
+}
+
+const R = DATA.rain_series, T = DATA.temp_series || [];
+const SUM = Object.fromEntries(DATA.rain_summary.map(s => [s.season + "." + s.index, s]));
+const TSUM = Object.fromEntries((DATA.temp_summary || []).map(s => [s.season + "." + s.index, s]));
+const E = DATA.meta.early, RC = DATA.meta.recent;
+
+/* 1. Seasonal totals small multiples */
+function seasonTotals() {
+  const host = document.getElementById("season-totals"); if (!host) return;
+  host.innerHTML = "";
+  SEASONS.forEach(s => {
+    const wrap = document.createElement("div"); wrap.className = "chart";
+    const sm = SUM[s.k + ".prcptot"], tr = sm.cell_trend_full;
+    const sig = tr.p < 0.05;
+    wrap.innerHTML = `<div class="panel-h"><span>${s.n} <em>${s.ml ? "· " + s.ml + " · " : "· "}${s.months}</em></span><em class="${sig ? "sig" : "ns"}">${sgn(sm.cell_change, 0)}% vs ${E[0]}–${E[1]}${sig ? "" : " · not significant"}</em></div>`;
+    host.appendChild(wrap);
+    const box = document.createElement("div"); box.style.position = "relative"; wrap.appendChild(box);
+    const pts = series(R, s.k, "prcptot", "cell");
+    chart(box, { W: 440, H: 200, zero: true, unit: "mm", dp: 0, aria: `${s.n} rainfall by year`,
+      layers: [{ pts, kind: "bar", color: "var(--s1)", opacity: 0.35, name: "Season total", tipColor: "var(--s1)" },
+               { pts: smooth(pts), kind: "line", color: "var(--s1)", width: 2.2, name: "11-yr average" }] });
+  });
+}
+
+/* 2. Index explorer */
+const ex = { season: "monsoon", index: "cwd" };
+function explorer() {
+  const box = document.getElementById("explorer"); if (!box) return;
+  const c = series(R, ex.season, ex.index, "cell"), s = series(R, ex.season, ex.index, "state");
+  const meta = RIDX[ex.index], sm = SUM[ex.season + "." + ex.index];
+  chart(box, { H: 300, unit: meta.u, dp: 1, zero: false,
+    aria: `${meta.n} by year, two methods`,
+    bands: [[E[0], E[1], `${E[0]}–${E[1]}`], [RC[0], RC[1], `${RC[0]}–${RC[1]}`]],
+    layers: [
+      { pts: c, kind: "dots", color: "var(--s1)", opacity: 0.45 },
+      { pts: s, kind: "dots", color: "var(--s2)", opacity: 0.45 },
+      { pts: smooth(c), kind: "line", color: "var(--s1)", width: 2.4, name: "Per cell (11-yr)" },
+      { pts: smooth(s), kind: "line", color: "var(--s2)", width: 2.4, dash: "6 4", name: "State average (11-yr)" },
+      { pts: c, kind: "hidden", color: "var(--s1)", name: "Per cell, that year" },
+      { pts: s, kind: "hidden", color: "var(--s2)", name: "State average, that year" },
+    ] });
+  const sumEl = document.getElementById("explorer-sum");
+  const line = (m, lab) => {
+    const t = sm[m + "_trend_full"], t2 = sm[m + "_trend_since1951"];
+    return `<div><b>${lab}:</b> ${fmt(sm[m + "_early"])} → ${fmt(sm[m + "_recent"])} ${meta.u} (${sgn(sm[m + "_change"], 0)}%). Trend ${sgn(t.slope_decade, 2)} ${meta.u}/decade since ${DATA.meta.rain_years[0]} <span class="${t.p < 0.05 ? "sig" : "ns"}">(p ${t.p < 0.001 ? "< 0.001" : "= " + t.p.toFixed(3)})</span>; since 1951 ${sgn(t2.slope_decade, 2)} <span class="${t2.p < 0.05 ? "sig" : "ns"}">(p ${t2.p < 0.001 ? "< 0.001" : "= " + t2.p.toFixed(3)})</span></div>`;
+  };
+  sumEl.innerHTML = line("cell", "Per cell") + line("state", "State average");
+}
+function explorerControls() {
+  const tabs = document.getElementById("ex-season"), sel = document.getElementById("ex-index");
+  if (!tabs) return;
+  SEASONS.forEach(s => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = s.n.replace("South-west ", "SW ").replace("North-east ", "NE ");
+    b.setAttribute("aria-pressed", s.k === ex.season); b.onclick = () => { ex.season = s.k; [...tabs.children].forEach(x => x.setAttribute("aria-pressed", x === b)); explorer(); };
+    tabs.appendChild(b);
+  });
+  Object.entries(RIDX).forEach(([k, v]) => { const o = document.createElement("option"); o.value = k; o.textContent = v.n; if (k === ex.index) o.selected = true; sel.appendChild(o); });
+  sel.onchange = () => { ex.index = sel.value; explorer(); };
+}
+
+/* 3. Trend map */
+const MAPS = Object.keys(DATA.rain_maps);
+let mapKey = MAPS.includes("monsoon.wet_days") ? "monsoon.wet_days" : MAPS[0];
+function trendMap() {
+  const box = document.getElementById("map"); if (!box) return;
+  box.innerHTML = "";
+  const cells = DATA.rain_maps[mapKey];
+  const [sk, ik] = mapKey.split(".");
+  const lon0 = 74.7, lon1 = 77.6, lat0 = 8.1, lat1 = 13.0, sc = 100;
+  const W = (lon1 - lon0) * sc, H = (lat1 - lat0) * sc * 1.0;
+  const X = v => (v - lon0) * sc, Y = v => (lat1 - v) * sc;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Trend per grid cell" }, box);
+  // relative trend: % of early mean per decade
+  const rel = c => c.early ? c.slope_decade / c.early * 100 : 0;
+  const vmax = Math.max(1, ...cells.map(c => Math.abs(rel(c)))) ;
+  const cap = Math.min(vmax, niceTicks(0, vmax, 3).slice(-1)[0]);
+  const color = v => {
+    const t = Math.max(-1, Math.min(1, v / cap));
+    const mix = (a, pct) => `color-mix(in oklab, ${a} ${Math.round(Math.abs(pct) * 100)}%, var(--mid))`;
+    return t >= 0 ? mix("var(--wet)", t) : mix("var(--dry)", -t);
+  };
+  const tip = attachTip(box);
+  cells.forEach(c => {
+    const r = el("rect", { class: "cell", x: X(c.lon - 0.125) + 1, y: Y(c.lat + 0.125) + 1, width: 25 - 2, height: 25 - 2, rx: 2, fill: color(rel(c)) }, svg);
+    if (c.p < 0.05) el("circle", { cx: X(c.lon), cy: Y(c.lat), r: 3, fill: "var(--ink)", "pointer-events": "none" }, svg);
+    r.addEventListener("pointermove", ev => {
+      const br = box.getBoundingClientRect();
+      placeTip(tip, box, ev.clientX - br.left, ev.clientY - br.top,
+        `<b>${c.lat.toFixed(2)}°N ${c.lon.toFixed(2)}°E</b><div>${fmt(c.early)} → ${fmt(c.recent)} ${RIDX[ik].u}</div><div>${sgn(c.slope_decade, 2)} ${RIDX[ik].u}/decade (${sgn(rel(c), 1)}%) ${c.p < 0.05 ? "<b>significant</b>" : "not significant"}</div>`);
+    });
+    r.addEventListener("pointerleave", () => tip.hidden = true);
+  });
+  OUTLINE.forEach(ring => el("path", { d: "M" + ring.map(([x, y]) => X(x).toFixed(1) + " " + Y(y).toFixed(1)).join("L") + "Z", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.2, "pointer-events": "none" }, svg));
+  const sigN = cells.filter(c => c.p < 0.05).length, up = cells.filter(c => c.slope_decade > 0).length;
+  document.getElementById("map-sum").innerHTML =
+    `<div class="fig-title">${SEASONS.find(s => s.k === sk).n}: ${RIDX[ik].n.toLowerCase()}</div>
+     <p class="note">${up} of ${cells.length} cells trend upward; ${sigN} are statistically significant (dot). Colour shows the trend as a share of each cell's ${E[0]}–${E[1]} average, per decade, capped at ±${cap}%.</p>
+     <div class="legend"><span><i class="sw" style="background:var(--dry)"></i>Drier / fewer</span><span><i class="sw" style="background:var(--mid);outline:1px solid var(--axis)"></i>No change</span><span><i class="sw" style="background:var(--wet)"></i>Wetter / more</span></div>`;
+}
+function mapControls() {
+  const sel = document.getElementById("map-pick"); if (!sel) return;
+  MAPS.forEach(k => { const [s, i] = k.split("."); const o = document.createElement("option"); o.value = k; o.textContent = `${SEASONS.find(x => x.k === s).n} · ${RIDX[i].n}`; if (k === mapKey) o.selected = true; sel.appendChild(o); });
+  sel.onchange = () => { mapKey = sel.value; trendMap(); };
+}
+
+/* 4. Method comparison table */
+function methodTable() {
+  const host = document.getElementById("method-table"); if (!host) return;
+  const idx = ["wet_days", "cwd", "cdd", "rx1day", "rx5day", "r20mm", "prcptot"];
+  let h = `<table><thead><tr class="grp"><th></th>${SEASONS.map(s => `<th colspan="2">${s.n.replace("South-west ", "SW ").replace("North-east ", "NE ")}</th>`).join("")}</tr>
+  <tr><th>Indicator (${E[0]}–${E[1]} → ${RC[0]}–${RC[1]})</th>${SEASONS.map(() => `<th>Per cell</th><th>State avg</th>`).join("")}</tr></thead><tbody>`;
+  idx.forEach(k => {
+    h += `<tr><td>${RIDX[k].n}</td>`;
+    SEASONS.forEach(s => {
+      const sm = SUM[s.k + "." + k];
+      const cs = sm.cell_trend_full.p < 0.05, ss = sm.state_trend_full.p < 0.05;
+      const disagree = cs !== ss || Math.sign(sm.cell_change) !== Math.sign(sm.state_change);
+      const cellTxt = v => `${sgn(v, 0)}%`;
+      h += `<td class="${cs ? "sig" : "ns"}">${cellTxt(sm.cell_change)}${cs ? "*" : ""}</td><td class="${ss ? "sig" : "ns"}${disagree ? " flag" : ""}">${cellTxt(sm.state_change)}${ss ? "*" : ""}</td>`;
+    });
+    h += `</tr>`;
+  });
+  host.innerHTML = h + `</tbody></table>`;
+}
+
+/* 5. Temperature small multiples */
+function tempPanels() {
+  const host = document.getElementById("temp-panels"); if (!host || !T.length) return;
+  host.innerHTML = "";
+  const base = DATA.meta.t_early;
+  SEASONS.forEach(s => {
+    const wrap = document.createElement("div"); wrap.className = "chart";
+    const mx = TSUM[s.k + ".tmax_mean"], mn = TSUM[s.k + ".tmin_mean"];
+    const tag = t => `${sgn(t.slope_decade, 2)}°C/dec${t.p < 0.05 ? "" : " (ns)"}`;
+    wrap.innerHTML = `<div class="panel-h"><span>${s.n} <em>· ${s.months}</em></span><em>max ${tag(mx.cell_trend_full)} · min ${tag(mn.cell_trend_full)}</em></div>`;
+    host.appendChild(wrap);
+    const box = document.createElement("div"); box.style.position = "relative"; wrap.appendChild(box);
+    const anom = idx => { const p = series(T, s.k, idx, "cell"); const b = p.filter(q => q.x >= base[0] && q.x <= base[1]); const m = b.reduce((a, q) => a + q.y, 0) / b.length; return p.map(q => ({ x: q.x, y: q.y - m })); };
+    const a1 = anom("tmax_mean"), a2 = anom("tmin_mean");
+    chart(box, { W: 440, H: 200, unit: "°C", dp: 2, refZero: true, aria: `${s.n} temperature anomalies`,
+      layers: [{ pts: a1, kind: "dots", color: "var(--s2)", opacity: 0.4 }, { pts: a2, kind: "dots", color: "var(--s1)", opacity: 0.4 },
+        { pts: smooth(a1), kind: "line", color: "var(--s2)", width: 2.2, name: "Day max (11-yr)" },
+        { pts: smooth(a2), kind: "line", color: "var(--s1)", width: 2.2, dash: "6 4", name: "Night min (11-yr)" }] });
+  });
+}
+
+function tempTable() {
+  const host = document.getElementById("temp-table"); if (!host || !T.length) return;
+  const idx = Object.keys(TIDX);
+  const [te, tr] = [DATA.meta.t_early, DATA.meta.t_recent];
+  let h = `<table><thead><tr class="grp"><th></th>${SEASONS.map(s => `<th colspan="2">${s.n.replace("South-west ", "SW ").replace("North-east ", "NE ")}</th>`).join("")}</tr>
+  <tr><th>Change (${te[0]}–${te[1]} → ${tr[0]}–${tr[1]})</th>${SEASONS.map(() => `<th>Per cell</th><th>State avg</th>`).join("")}</tr></thead><tbody>`;
+  idx.forEach(k => {
+    h += `<tr><td>${TIDX[k].n}</td>`;
+    SEASONS.forEach(s => {
+      const sm = TSUM[s.k + "." + k];
+      const cs = sm.cell_trend_full.p < 0.05, ss = sm.state_trend_full.p < 0.05;
+      const disagree = cs !== ss;
+      const u = k === "tx90p" ? " pts" : "°";
+      h += `<td class="${cs ? "sig" : "ns"}">${sgn(sm.cell_change, k === "tx90p" ? 0 : 2)}${u}${cs ? "*" : ""}</td><td class="${ss ? "sig" : "ns"}${disagree ? " flag" : ""}">${sgn(sm.state_change, k === "tx90p" ? 0 : 2)}${u}${ss ? "*" : ""}</td>`;
+    });
+    h += `</tr>`;
+  });
+  host.innerHTML = h + `</tbody></table>`;
+}
+
+function renderAll() { seasonTotals(); explorer(); trendMap(); methodTable(); tempPanels(); tempTable(); }
+explorerControls(); mapControls(); renderAll();
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(renderAll, 200); });
+matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", renderAll);
+})();
+</script>

@@ -1,0 +1,106 @@
+<header>
+  <p class="kicker">Kerala · IMD gridded rainfall 1901–2025 · temperature 1951–2025</p>
+  <h1>Kerala's monsoon is breaking into shorter spells</h1>
+  <p class="dek">Across 125 years of daily data, Kerala's south-west monsoon has lost about a tenth of its rain, and its long unbroken wet spells have shrunk by more than a quarter. Every season is warmer, with days warming faster than nights.</p>
+  <p class="meta">Analysis of India Meteorological Department 0.25° gridded rainfall (64 grid cells over Kerala) and 1° gridded temperature. Periods compared: 1901–1950 against 1991–2025 for rain, 1951–1980 against 1996–2025 for temperature.</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>−11%</b><span>South-west monsoon rainfall, 1,886 mm to 1,679 mm per season</span></div>
+  <div class="stat"><b>39 → 28</b><span>Days in the longest monsoon wet spell, per location</span></div>
+  <div class="stat"><b>+0.9°C</b><span>Monsoon daytime maximum, 1951–80 to 1996–2025</span></div>
+  <div class="stat"><b>7% → 23%</b><span>Monsoon days hotter than the 1961–90 90th percentile</span></div>
+</div>
+
+<section class="prose">
+  <h2>Four seasons, four different stories</h2>
+  <p>Kerala gets rain in every season, but almost all of it comes in two bursts: the south-west monsoon, known locally as <span class="ml">Edavapathi</span> because it arrives in the middle of the month of Edavam, and the north-east monsoon, <span class="ml">Thulavarsham</span>, from October. Summer showers before the monsoon are <span class="ml">venal mazha</span>.</p>
+  <p>A recent national analysis by Data For India found that India's pre-monsoon season shows the clearest change, with more rainy days and heavier rain. Kerala does not follow that pattern. Its pre-monsoon shows no significant trend in any indicator. The change here is concentrated in the two monsoons, and it points towards less rain, delivered in shorter runs.</p>
+</section>
+
+<figure>
+  <div class="fig-title">Season rainfall in Kerala, 1901–2025</div>
+  <div class="fig-sub">Bars: each year's season total (mm, average across Kerala's grid cells). Line: 11-year centred average. Change compares 1991–2025 with 1901–1950.</div>
+  <div class="multi" id="season-totals" style="margin-top:0.6rem"></div>
+  <figcaption>Significance from a Mann–Kendall test corrected for autocorrelation, at the 5% level, over 1901–2025.</figcaption>
+</figure>
+
+<section class="prose">
+  <h2>The south-west monsoon: less rain, fewer long wet runs</h2>
+  <p>Monsoon rainfall averaged 1,886 mm a season in 1901–1950 and 1,679 mm in 1991–2025, a fall of 11%. The decline is statistically significant over the full record, at about 22 mm per decade. The wettest decades were the 1920s and 1940s; the driest were the 1980s and 2000s, with partial recovery since.</p>
+  <p>The most robust change is in persistence. At a typical location, the longest unbroken run of rainy days in the monsoon has fallen from 39 days to 28. This is the one rainfall trend that stays significant whether measured from 1901 or from 1951, and whichever way the indicator is computed. Rainy days have also fallen, from 91 to 85 per season, with 35 of Kerala's 64 grid cells showing a significant decline.</p>
+  <p>Intensity has not risen on average. The wettest single day of the monsoon averages 101 mm in both periods, and the wettest five days have fallen 6%. Extreme years still stand out: 2019 and 2018 rank second and third for the wettest single day on record, behind only July 1924, the flood remembered in Kerala as the "Great Flood of '99" after its year in the Malayalam calendar.</p>
+</section>
+
+<figure>
+  <div class="fig-title">Explore any indicator, season by season</div>
+  <div class="fig-sub">Dots are individual years; lines are 11-year centred averages. Shaded bands mark the two comparison periods. Blue computes each indicator in every grid cell, then averages. Orange averages rainfall across Kerala first, then computes.</div>
+  <div class="controls"><div class="tabs" id="ex-season" role="group" aria-label="Season"></div><label class="note" for="ex-index">Indicator</label><select id="ex-index"></select></div>
+  <div class="chart"><div id="explorer" style="position:relative"></div></div>
+  <div class="legend"><span><i style="border-color:var(--s1)"></i>Per cell, then averaged</span><span><i class="dash" style="border-color:var(--s2)"></i>State average first</span></div>
+  <div id="explorer-sum" class="note" style="margin-top:0.6rem"></div>
+</figure>
+
+<section class="prose">
+  <h2>Where the monsoon is changing</h2>
+  <p>The drying is not uniform. Fewer monsoon rainy days show up across most of the state, but the decline in total monsoon rain is concentrated in fewer cells: 27 of 64 have a significant downward trend. In the north-east monsoon, 17 cells show a significant decline in season totals and none show a significant increase.</p>
+</section>
+
+<figure>
+  <div class="controls"><label class="note" for="map-pick">Map</label><select id="map-pick"></select></div>
+  <div class="mapwrap" style="margin-top:0.6rem">
+    <div class="chart"><div id="map" style="position:relative"></div></div>
+    <div id="map-sum" style="min-width:0"></div>
+  </div>
+  <figcaption>Each square is one 0.25° IMD grid cell (about 27 km) overlapping Kerala. Trend is Sen's slope over 1901–2025.</figcaption>
+</figure>
+
+<section class="prose">
+  <h2>The north-east monsoon, pre-monsoon and winter</h2>
+  <p><b>Thulavarsham</b> (October–December) has lost 6.5% of its rain, from 525 mm to 491 mm, with fewer rainy days and shorter wet spells. The trend in totals is significant over 1901–2025 but not since 1951. One indicator moves the other way: since 1951, the wettest single day of the season has been rising by about 1.5 mm per decade, a trend that holds under both methods. 2021 was the wettest north-east monsoon on record, at 969 mm.</p>
+  <p><b>Pre-monsoon</b> rain (March–May) is almost unchanged on average, up 2%, with no significant trend. Year-to-year swings dominate: 1983 brought 108 mm, while 2025 set a record of 820 mm, more than half of it in May as the monsoon arrived early.</p>
+  <p><b>Winter</b> (January–February) rain fell by a third, from 41 mm to 28 mm. Nearly all of that decline happened before 1951; the trend since then is flat. Winter rain is a small share of Kerala's annual total.</p>
+</section>
+
+<section class="prose">
+  <h2>Temperature: every season warmer, days faster than nights</h2>
+  <p>Daytime maximum temperatures have risen by 0.8°C to 0.9°C in every season between 1951–1980 and 1996–2025, about 0.2°C per decade. Night-time minimums have risen by roughly half as much, 0.4°C to 0.6°C. In the monsoon, the gap between day and night has widened significantly, by 0.5°C. That is consistent with fewer rainy, cloudy days, though this analysis does not test the link.</p>
+  <p>Hot days have become routine. Using each season's 1961–1990 90th percentile as the threshold, 7% of monsoon days crossed it in 1951–1980. In 1996–2025, 23% did. The north-east monsoon season shows the largest rise, from 4% to 26% of days.</p>
+</section>
+
+<figure>
+  <div class="fig-title">Temperature anomalies by season, 1951–2025</div>
+  <div class="fig-sub">Difference from the 1951–1980 average, °C. Header shows Sen's slope per decade; (ns) marks trends that are not significant.</div>
+  <div class="multi" id="temp-panels" style="margin-top:0.6rem"></div>
+  <div class="legend"><span><i style="border-color:var(--s2)"></i>Daytime maximum</span><span><i class="dash" style="border-color:var(--s1)"></i>Night-time minimum</span></div>
+  <div class="tbl-wrap" id="temp-table"></div>
+  <figcaption>* significant at 5% over 1951–2025. Orange edge: the two methods disagree on significance. Temperature uses IMD's 1° grid; 9 cells overlap Kerala, weighted by the share of each cell inside the state.</figcaption>
+</figure>
+
+<section class="prose">
+  <h2>How the method changes the answer</h2>
+  <p>National analyses such as the Data For India article work from area-averaged rainfall: average across the whole region first, then count rainy days, spells and extremes on that single series. The ETCCDI indicators were designed to be computed at individual stations or grid cells. This analysis did both, to see how much the choice matters for one state.</p>
+  <p>For season totals and average temperatures, the two methods give identical results, because averaging and adding commute. For anything that counts days against a threshold or picks out a maximum, they diverge sharply. Averaged across Kerala first, the monsoon has 115 rainy days and a longest wet spell of 86 days. Measured per location, it has 91 rainy days and a longest wet spell of 39 days. A state-average day counts as rainy if enough of Kerala gets rain, even when most places stay dry. The same averaging dilutes extremes: the wettest monsoon day falls from 101 mm per location to 73 mm on the state series.</p>
+  <p>The methods mostly agree on the direction of change, but not always on whether it is real. In 9 of 48 tests of frequency and extreme indicators, one method finds a significant trend and the other does not. The pre-monsoon's longest wet spell is the clearest case: the state-average series shows a significant 25% decline; per location, the change is 6.5% and not significant.</p>
+</section>
+
+<figure>
+  <div class="fig-title">Rainfall change by method, 1901–1950 to 1991–2025</div>
+  <div class="tbl-wrap" id="method-table"></div>
+  <figcaption>Bold with * : significant trend over 1901–2025 at 5%. Orange edge: the two methods disagree on significance or direction. Season totals agree by construction and are included as a check.</figcaption>
+</figure>
+
+<div class="methodbox prose">
+  <h3>Data, method and limits</h3>
+  <ul>
+    <li><b>Rainfall:</b> IMD 0.25° daily gridded rainfall, 1901–2025, built from about 6,900 rain gauges (Pai et al., 2014). 64 grid cells overlap Kerala by at least a quarter of their area; each is weighted by its overlap.</li>
+    <li><b>Temperature:</b> IMD 1° daily gridded maximum and minimum, 1951–2025. Only 9 cells overlap Kerala, several partly over the sea or Tamil Nadu, so temperature results describe the region broadly, not district detail.</li>
+    <li><b>Indicators:</b> seasonal versions of ETCCDI indices. Rainy day: at least 1 mm. Heavy-rain day: at least 20 mm. Spells are counted within each season.</li>
+    <li><b>Trends:</b> Sen's slope, with significance from the Hamed–Rao modified Mann–Kendall test, which allows for autocorrelation. With dozens of tests, a few significant results at 5% are expected by chance.</li>
+    <li><b>Early-record check:</b> gauge coverage was thinner in the early 1900s, which can smooth rainy-day counts and extremes. Every trend was re-run from 1951. Many full-record rainfall trends lose significance from 1951 onward, meaning part of the long-run decline reflects a wet first half of the century. The shortening of monsoon wet spells holds in both windows.</li>
+    <li><b>Validation:</b> the record five-day rainfall ends on 19 July 1924 and the 2018 peak on 17 August 2018, matching the known dates of both floods.</li>
+  </ul>
+</div>
+
+<hr>
+<p class="note">Source: India Meteorological Department, Pune, gridded rainfall and temperature data. Method comparison inspired by Data For India, <a href="https://www.dataforindia.com/seasonal-daily-rainfall/">Seasonal changes in daily rainfall patterns</a> (September 2026). Analysis code: Python with xarray and pymannkendall.</p>
